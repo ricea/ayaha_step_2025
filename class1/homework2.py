@@ -47,28 +47,42 @@ def highest_score_anagram(anagram):
          
 if __name__ == "__main__":
     with open('small.txt') as f:
-        small_word = f.read().replace("\n", "")
+        small_words = [word.rstrip() for word in f.readlines()]
     with open('medium.txt') as f:
-        medium_word = f.read().replace("\n", "")
+        medium_words = [word.rstrip() for word in f.readlines()]
     with open('large.txt') as f:
-        large_word = f.read().replace("\n", "")
+        large_words = [word.rstrip() for word in f.readlines()]
     
     # small
-    small_anagram = return_anagram(small_word, path_to_dictionary)
-    best_small_anagram = highest_score_anagram(small_anagram)
+    best_small_anagram = []
+    for i in range(len(small_words)):
+        small_word = small_words[i]
+        small_anagram = return_anagram(small_word, path_to_dictionary)
+        highest_score_anagrams = highest_score_anagram(small_anagram)
+        best_small_anagram.append(highest_score_anagrams[0])
     print(best_small_anagram)
     
     # medium
-    medium_anagram = return_anagram(small_word, path_to_dictionary)
-    best_mdeium_anagram = highest_score_anagram(medium_anagram)
+    best_medium_anagram = []
+    for i in range(len(medium_words)):
+        medium_word = medium_words[i]
+        medium_anagram = return_anagram(medium_word, path_to_dictionary)
+        highest_score_anagrams = highest_score_anagram(medium_anagram)
+        best_medium_anagram.append(highest_score_anagrams[0])
+    print(best_medium_anagram)
     
     # large
-    large_anagram = return_anagram(large_word, path_to_dictionary)
-    best_large_anagram = highest_score_anagram(large_anagram)
+    best_large_anagram = []
+    for i in range(len(medium_words)):
+        large_word = large_words[i]
+        large_anagram = return_anagram(large_word, path_to_dictionary)
+        highest_score_anagrams = highest_score_anagram(large_anagram)
+        best_large_anagram.append(highest_score_anagrams[0])
+    print(best_large_anagram)
     
     with open('small_answer.txt', 'w') as f:
-        f.write(best_small_anagram[0])
+        f.write("\n".join(best_small_anagram))
     with open('medium_answer.txt', 'w') as f:
-        f.write(best_mdeium_anagram[0])
+        f.write("\n".join(best_medium_anagram))
     with open('large_answer.txt', 'w') as f:
-        f.write(best_large_anagram[0])
+        f.write("\n".join(best_large_anagram))
