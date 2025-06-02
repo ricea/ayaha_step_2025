@@ -15,11 +15,9 @@ def letter_count(word):
     letter_count_list = Counter(word)
     return letter_count_list
 
-def return_anagram(random_word, path_to_dictionary):
+def return_anagram(random_word, letter_count_dictionary):
     random_word_letter_list = letter_count(random_word)
     anagram = []
-    
-    letter_count_dictionary = make_letter_count_dictionary(path_to_dictionary)
     
     for i in range(len(letter_count_dictionary)):
         list = letter_count_dictionary[i][0]
@@ -44,8 +42,18 @@ def highest_score_anagram(anagram):
             
     best_anagram = [kv[0] for kv in scores.items() if kv[1] == max(scores.values())]
     return best_anagram
+
+def find_best_anagrams(words):
+    best_anagram= []
+    for i in range(len(words)):
+        word = words[i]
+        anagram = return_anagram(word,letter_count_dictionary)
+        highest_score_anagrams = highest_score_anagram(anagram)
+        best_anagram.append(highest_score_anagrams[0])
+    return best_anagram
          
 if __name__ == "__main__":
+    letter_count_dictionary = make_letter_count_dictionary(path_to_dictionary)
     with open('small.txt') as f:
         small_words = [word.rstrip() for word in f.readlines()]
     with open('medium.txt') as f:
@@ -54,30 +62,15 @@ if __name__ == "__main__":
         large_words = [word.rstrip() for word in f.readlines()]
     
     # small
-    best_small_anagram = []
-    for i in range(len(small_words)):
-        small_word = small_words[i]
-        small_anagram = return_anagram(small_word, path_to_dictionary)
-        highest_score_anagrams = highest_score_anagram(small_anagram)
-        best_small_anagram.append(highest_score_anagrams[0])
+    best_small_anagram = find_best_anagrams(small_words)
     print(best_small_anagram)
     
     # medium
-    best_medium_anagram = []
-    for i in range(len(medium_words)):
-        medium_word = medium_words[i]
-        medium_anagram = return_anagram(medium_word, path_to_dictionary)
-        highest_score_anagrams = highest_score_anagram(medium_anagram)
-        best_medium_anagram.append(highest_score_anagrams[0])
+    best_medium_anagram = find_best_anagrams(medium_words)
     print(best_medium_anagram)
     
     # large
-    best_large_anagram = []
-    for i in range(len(medium_words)):
-        large_word = large_words[i]
-        large_anagram = return_anagram(large_word, path_to_dictionary)
-        highest_score_anagrams = highest_score_anagram(large_anagram)
-        best_large_anagram.append(highest_score_anagrams[0])
+    best_large_anagram = find_best_anagrams(large_words)
     print(best_large_anagram)
     
     with open('small_answer.txt', 'w') as f:
