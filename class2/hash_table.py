@@ -17,7 +17,11 @@ from sympy import primerange
 def calculate_hash(key):
     # using hash function to reduce hash collision
     assert type(key) == str 
-    hash_value = hash(key)
+    hash_value = 0
+    for chalacter in key:
+        hash_value = hash_value * 27 + ord(chalacter)
+    hash_value = hash_value % 2000000001
+    
     return hash_value
 
 
@@ -108,10 +112,10 @@ class HashTable:
                 else:
                     self.buckets[bucket_index] = item.next
                 self.item_count -= 1
-                return (True)
+                return True
             prev = item
             item = item.next
-        return (False)
+        return False
        
 
     # Return the total number of items in the hash table.
@@ -127,7 +131,7 @@ class HashTable:
         assert (self.bucket_size < 100 or
                 self.item_count >= self.bucket_size * 0.3)
     
-    def check_rehash(self):
+    def check_rehash_and_set_bucket_size(self):
         # decide whether to rehash
         if self.item_count > self.bucket_size * 0.7:
             primes = list(primerange(self.bucket_size * 2))
@@ -144,7 +148,7 @@ class HashTable:
             return False
         
     def rehash(self):
-        if self.check_rehash():
+        if self.check_rehash_and_set_bucket_size():
             old_buckets = self.buckets
             self.buckets = [None] * self.bucket_size
             old_item_count = self.item_count
