@@ -116,7 +116,6 @@ def evaluate_total(tokens):
             index = open_parens_index + 1
         else:
             index += 1
-    print(tokens)
     # 括弧が全てはずれた式を計算する
     return evaluate_without_parens(tokens)
             
