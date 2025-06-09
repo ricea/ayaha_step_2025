@@ -25,6 +25,14 @@ def read_minus(line, index):
     token = {'type': 'MINUS'}
     return token, index + 1
 
+def read_times(line, index):
+    token = {'type': 'TIMES'}
+    return token, index + 1
+
+def read_slash(line, index):
+    token = {'type': 'SLASH'}
+    return token, index + 1
+
 
 def tokenize(line):
     tokens = []
@@ -36,6 +44,10 @@ def tokenize(line):
             (token, index) = read_plus(line, index)
         elif line[index] == '-':
             (token, index) = read_minus(line, index)
+        elif line[index] == '*':
+            (token, index) = read_times(line, index)
+        elif line[index] == '/':
+            (token, index) = read_slash(line, index)
         else:
             print('Invalid character found: ' + line[index])
             exit(1)
@@ -46,6 +58,20 @@ def tokenize(line):
 def evaluate(tokens):
     answer = 0
     tokens.insert(0, {'type': 'PLUS'}) # Insert a dummy '+' token
+    # 積・商の計算
+    index = 1 
+    while index < len(tokens):
+        if tokens[index]['type'] == 'NUMBER':
+            if tokens[index - 1]['type'] == 'TIMES':
+                tokens[index-2]['number'] = tokens[index-2]['number'] * tokens[index]['number']
+                del tokens[index-1:index+1]
+                index -= 2   
+            elif tokens[index - 1]['type'] == 'SLASH':
+                tokens[index-2]['number'] = tokens[index-2]['number'] / tokens[index]['number']
+                del tokens[index-1:index+1]
+                index -= 2
+        index += 1 
+    # 和・差の計算
     index = 1
     while index < len(tokens):
         if tokens[index]['type'] == 'NUMBER':
@@ -73,8 +99,15 @@ def test(line):
 # Add more tests to this function :)
 def run_test():
     print("==== Test started! ====")
+    test("1")
     test("1+2")
+    test("1.0+2")
+    test("1.0+2.0")
     test("1.0+2.1-3")
+    test("2*3")
+    test("2.5*4/7")
+    test("3*4+5")
+    test("1-2/4+3*5")
     print("==== Test finished! ====\n")
 
 run_test()
