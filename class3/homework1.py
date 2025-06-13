@@ -25,17 +25,21 @@ def read_minus(line, index):
     token = {'type': 'MINUS'}
     return token, index + 1
 
+
 def read_times(line, index):
     token = {'type': 'TIMES'}
     return token, index + 1
+
 
 def read_slash(line, index):
     token = {'type': 'SLASH'}
     return token, index + 1
 
+
 def read_open_paren(line, index):
     token = {'type': 'OPEN_PAREN'}
     return token, index + 1
+
 
 def read_close_paren(line, index):
     token = {'type': 'CLOSE_PAREN'}
@@ -134,11 +138,14 @@ def test(line):
 def run_test():
     print("==== Test started! ====")
     test("1")
+    test("1.0")
     test("1+2")
+    test("1-2")
+    test("1*2")
+    test("1/2")
     test("1.0+2")
     test("1.0+2.0")
     test("1.0+2.1-3")
-    test("2*3")
     test("2.5*4/7")
     test("3*4+5")
     test("1-2/4+3*5")
