@@ -25,7 +25,7 @@ def solve(cities):
     # 焼きなまし法
     while unvisited_cities:
         random_rate = rd.random()
-        if random_rate >= 0.1:
+        if random_rate >= 0.15:
             next_city = min(unvisited_cities,
                             key=lambda city: dist[current_city][city])
         else:
@@ -41,17 +41,17 @@ def solve(cities):
         for i in range(size-2):
             # p1,p2は連続する2点のindex
             p1 = i
-            p2= i + 1
+            p2 = i + 1
             for j in range(p2+1, size):
                 p3 = j
                 # p3がリストの1番最後の点の場合ははじめの点を指定
                 p4 = (j+1) % size
                 
                 # 4点で線分を入れ替えた場合に距離が短くなる場合は入れ替える
-                l1 = distance(cities[tour[p1]], cities[tour[p2]])
-                l2 = distance(cities[tour[p3]], cities[tour[p4]])
-                l3 = distance(cities[tour[p1]], cities[tour[p3]])
-                l4 = distance(cities[tour[p2]], cities[tour[p4]])
+                l1 = dist[tour[p1]][tour[p2]]
+                l2 = dist[tour[p3]][tour[p4]]
+                l3 = dist[tour[p1]][tour[p3]]
+                l4 = dist[tour[p2]][tour[p4]]
                 if l1+l2 > l3+l4:
                     # 点を入れ替え
                     new_path = tour[p2:p3+1]
